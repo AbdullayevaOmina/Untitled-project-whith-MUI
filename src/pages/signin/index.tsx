@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { login } from "@auth";
+import useAuthStore from "../../store/auth";
 import * as Yup from "yup";
 import { Box, FormHelperText, TextField, Button } from "@mui/material";
 
@@ -17,6 +16,8 @@ interface ErrorMessages {
 
 function Index() {
   const navigate = useNavigate();
+
+  const { signin } = useAuthStore();
 
   const [formData, setFormData] = useState<FormData>({
     username: "",
@@ -45,10 +46,10 @@ function Index() {
   const handleFormSubmit = async () => {
     try {
       await schema.validate(formData, { abortEarly: false });
-      const response = await login("/auth/login", formData);
-      localStorage.setItem("userToken", response?.data?.accessToken);
-      toast.success("Welcome!");
-      navigate("/main");
+
+      const res = await signin(formData); // Store ichidagi auth 
+      if (res === 201) navigate("/main");
+      
     } catch (error) {
       let validationError: ErrorMessages = {};
       if (error instanceof Yup.ValidationError) {

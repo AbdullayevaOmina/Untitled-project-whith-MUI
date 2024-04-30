@@ -2,7 +2,7 @@ import { Brands, Models, Products, Users, ImageUpload } from "@pages";
 
 const router = [
   {
-    path: "/main/products",
+    path: "/main",
     element: <Products />,
     content: "Products",
   },

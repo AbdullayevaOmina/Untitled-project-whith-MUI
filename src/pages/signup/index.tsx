@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { register } from "@auth";
+import useAuthStore from "../../store/auth";
 
 import * as Yup from "yup";
 import { useMask } from "@react-input/mask";
@@ -21,6 +20,8 @@ interface ErrorMessages {
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
+
+  const { signup } = useAuthStore();
 
   const [formData, setFormData] = useState<FormData>({
     username: "",
@@ -57,9 +58,10 @@ const Index: React.FC = () => {
       await schema.validate(formData, { abortEarly: false });
       let phone_number = formData.phone.replace(/\D/g, "");
       let payload = { ...formData, phone: `+${phone_number}` };
-      await register("/auth/register", payload);
-      toast.success("You are registered!");
-      navigate("/signin");
+
+      const res = await signup(payload); // Store ichidagi auth
+      if (res === 201) navigate("/signin");
+
     } catch (error) {
       let validationError: ErrorMessages = {};
       if (error instanceof Yup.ValidationError) {

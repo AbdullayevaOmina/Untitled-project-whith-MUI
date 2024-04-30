@@ -70,7 +70,7 @@ const index = () => {
 
   return (
     <div>
-      <div className="d-flex gap-8 h-9 my-3">
+      <div className="d-flex gap-8 h-9 my-5">
         <h2>Models</h2>
         <form className="d-flex input-group">
           <input

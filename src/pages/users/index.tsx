@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import EditeUserModal from "../../components/edituser/index.tsx";
 import { Get } from "@httpModel";
 import Table from "@table";
-// import Table from "../../components/table/index.tsx";
 
 interface User {
   id: number;
@@ -30,7 +29,7 @@ const Index: React.FC = () => {
 
   return (
     <div>
-      <div className="d-flex gap-8 h-9 my-3">
+      <div className="d-flex gap-8 h-9 my-5">
         <h2>Users</h2>
         <form className="d-flex input-group">
           <input
@@ -39,7 +38,7 @@ const Index: React.FC = () => {
             placeholder="Search user..."
           />
           <button className="btn btn-primary  rounded-r-none" type="submit">
-            <i className="fa-solid fa-magnifying-glass"></i>
+            <i className="fa-solid fa-magnifying-glass"/>
           </button>
         </form>
         <EditeUserModal

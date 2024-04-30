@@ -29,7 +29,7 @@ const Index = () => {
 
   return (
     <div>
-      <h2 className="text-center my-4">Image Upload</h2>
+      <h2 className="text-center my-5">Image Upload</h2>
       <form className="d-flex gap-3" onSubmit={handleSubmit}>
         <input type="file" className="form-control" onChange={handleChange} />
         <button type="submit" className="btn btn-primary">

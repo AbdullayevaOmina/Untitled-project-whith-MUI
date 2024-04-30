@@ -128,7 +128,7 @@ export default function MiniDrawer() {
             variant="h6"
             noWrap
             component="div"
-            className=" capitalize"
+            className="capitalize"
           >
             {/* {lastPart} */}
             Dashboard
@@ -148,7 +148,7 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {router?.map((item, index) => (
-            <NavLink to={item.path} className="text-decoration-none text-black">
+            <NavLink key={index} to={item.path} className="text-decoration-none text-black">
               <ListItem key={index} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{

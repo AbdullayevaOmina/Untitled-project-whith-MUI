@@ -29,8 +29,8 @@ const Index = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const productResponse = await Get("/products");
-        // setProducts(productResponse);
+        const productResponse = await Get("/products");
+        setProducts(productResponse);
 
         // const brandResponse = await Get("/brands");
         // setBrands(brandResponse);
@@ -45,7 +45,22 @@ const Index = () => {
   }, []);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    const fetchData = async () => {
+      try {
+        const brandResponse = await Get("/brands");
+        setBrands(brandResponse);
+
+        const modeldResponse = await Get("/models");
+        setModels(modeldResponse);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+
+    setShow(true);
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -85,7 +100,7 @@ const Index = () => {
 
   return (
     <div>
-      <div className="d-flex gap-8 h-9 my-3">
+      <div className="d-flex gap-8 h-9 my-5">
         <h2>Products</h2>
         <form className="d-flex input-group">
           <input
@@ -102,7 +117,7 @@ const Index = () => {
         </Button>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal className="z-50" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add New Product</Modal.Title>
         </Modal.Header>
@@ -138,7 +153,6 @@ const Index = () => {
                     {model.name}
                   </option>
                 ))}
-                
               </Form.Select>
             </Form.Group>
 
@@ -165,9 +179,9 @@ const Index = () => {
         </Modal.Footer>
       </Modal>
 
-      <div>
-        {products.map((product: ProductType) => (
-          <Card key={product.id} className="w-1/3">
+      <div className="d-flex flex-wrap gap-3">
+        {products?.map((product: ProductType) => (
+          <Card key={product.id} className="w-1/4">
             <Card.Header className="text-center">
               <Link
                 to={`/main/products/${product.id}`}
@@ -176,9 +190,9 @@ const Index = () => {
                 {product.name}
               </Link>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="d-grid place-content-center">
               <img
-                className="bg-slate-400 w-full h-60"
+                className="bg-slate-400 h-60 w-auto"
                 src={product.imageUrl}
                 alt={product.name}
               />
@@ -195,14 +209,22 @@ const Index = () => {
               >
                 <i className="fa-solid fa-trash-can"></i>
               </Button>
-              <Link to={`/main/products/${product.id}`}>
-                <Button variant="primary">
-                  <i className="fa-solid fa-eye"></i>
-                </Button>
-              </Link>
+              {/* <Link to={`/main/products/${product.id}`}> */}
+              <Button variant="primary">
+                <i className="fa-solid fa-eye"></i>
+              </Button>
+              {/* </Link> */}
             </Card.Footer>
           </Card>
         ))}
+        {products.length === 0 && (
+          <div className="w-100 h-52 text-center p-3 pt-4">
+            <h3>Products not available yet</h3>
+            <h1 className="mt-5 text-green-500">
+              You can add the product yourself
+            </h1>
+          </div>
+        )}
       </div>
     </div>
   );
